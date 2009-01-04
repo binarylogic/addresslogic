@@ -1,0 +1,50 @@
+= Address Logic
+
+This is a simple library that takes away the annoyances of displaying addresses in a view. Since various parts of an address can sometimes be optional, such as "street2", displaying addresses was not fun:
+
+  # some HAML view
+  = address.street1
+  %br
+  - if !address.street2.blank?
+    = address.street2
+    %br
+  == #{address.city}, #{address.state} #{address.zip}
+  %br
+  = address.country
+
+That's just ugly. Instead, you can do this with Address Logic:
+
+  = address.address_parts.join("<br />")
+
+Or, what about a single line address?
+
+  = address.address_parts.join(", ")
+
+Maybe you only want city and state:
+
+  = address.address_parts(:only => [:city, :state]).join(", ")
+
+Granted the above is probably easier without using AddressLogic, but it will purge any blank items in the address, so if city or state are optional then it would be cleaner to use AddressLogic.
+
+== Install and use
+
+As a gem:
+
+  $ sudo gem install addresslogic
+
+Or as a plugin
+
+  $ sudo script/plugin install url
+
+Then ust include the AddressLogic module into any class of your choice. All that it assumes is that you have the street1, street2, city, state, zip, country (optional) methods.
+
+  class Address
+    include Addresslogic
+  end
+
+== Helpful links
+
+*	<b>Documentation:</b> http://addresslogic.rubyforge.org
+
+
+Copyright (c) 2009 Ben Johnson of [Binary Logic](http://www.binarylogic.com), released under the MIT license
