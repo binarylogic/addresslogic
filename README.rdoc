@@ -34,7 +34,7 @@ As a gem:
 
 Or as a plugin
 
-  $ sudo script/plugin install url
+  $ sudo script/plugin install git://github.com/binarylogic/addresslogic.git
 
 Then just include the AddressLogic module into any class of your choice. All that it assumes is that you have the street1, street2, city, state, zip, country (optional) methods.
 
