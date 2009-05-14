@@ -23,7 +23,7 @@ module Addresslogic
     attr_accessor :address_parts_fields
     
     def apply_addresslogic(args = {})
-      self.address_parts_fields = args[:fields] || [:street1, :street2, :city, [:state, :zip], :country]
+      self.address_parts_fields = args[:fields] || [:street1, :street2, [:city, [:state, :zip]], :country]
       include Addresslogic::InstanceMethods
     end
   end
