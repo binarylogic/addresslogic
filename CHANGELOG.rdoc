@@ -1,4 +1,8 @@
-== 1.0.1
+== 1.1.1
+
+* Clean up code to use recursion and allow fields to be specified like: [:street1, :street2, [:city, [:state, :zip]], :country]. Which is the standard american way of displaying address. Which looks like: [street1, street2, "#{city}, #{state} #{zip}", country]
+
+== 1.1.0
 
 * Changed inclusion method to use apply_addresslogic instead of include Addresslogic. This allows you to pass options and specify alternate fields.
 

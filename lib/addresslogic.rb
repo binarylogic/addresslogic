@@ -41,39 +41,30 @@ module Addresslogic
     #
     # * <tt>only:</tt> fields you want included in the result
     # * <tt>except:</tt> any fields you want excluded from the result
-    def address_parts(options = {})
+    def address_parts(*args)
+      options = args.extract_options!
       options[:only] = [options[:only]] if options[:only] && !options[:only].is_a?(Array)
       options[:except] = [options[:except]] if options[:except] && !options[:except].is_a?(Array)
-    
+      fields = args[0] || address_parts_fields
+      level = args[1] || 0
+      
       parts = []
-      address_parts_fields.each do |part|
-        if part.is_a?(Array)
-          # We only want to allow 2d arrays
-          subparts = []
-          part.flatten.each do |subpart|
-            next if !respond_to?(subpart)
-            value = send(subpart)
-            next if value.to_s.blank? || (options[:only] && !options[:only].include?(subpart)) || (options[:except] && options[:except].include?(subpart))
-            subparts << value
-          end
-          parts << subparts unless subparts.compact.empty?
+      fields.each do |field|
+        if field.is_a?(Array)
+          has_sub_array = field.find { |item| item.is_a?(Array) }
+          separator = has_sub_array ? ", " : " "
+          sub_parts = address_parts(field, level + 1, options).join(separator)
+          next if sub_parts.blank?
+          parts << sub_parts
         else
-          next if !respond_to?(part)
-          value = send(part)
-          next if value.to_s.strip == "" || (options[:only] && !options[:only].include?(part)) || (options[:except] && options[:except].include?(part))
+          next if !respond_to?(field)
+          value = send(field)
+          next if value.to_s.strip == "" || (options[:only] && !options[:only].include?(field)) || (options[:except] && options[:except].include?(field))
           parts << value
         end
       end
       
-      result = parts.collect do |part|
-        if part.is_a?(Array)
-          part.collect{|sub| sub.to_s.strip.blank? ? nil : sub}.join(" ")
-        else
-          part.to_s.strip.blank? ? nil : part
-        end
-      end
-      
-      return result.compact
+      parts
     end
     
     private
