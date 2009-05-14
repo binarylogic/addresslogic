@@ -36,10 +36,16 @@ Or as a plugin
 
   $ sudo script/plugin install url
 
-Then ust include the AddressLogic module into any class of your choice. All that it assumes is that you have the street1, street2, city, state, zip, country (optional) methods.
+Then just include the AddressLogic module into any class of your choice. All that it assumes is that you have the street1, street2, city, state, zip, country (optional) methods.
 
   class Address
-    include Addresslogic
+    apply_addresslogic
+  end
+
+You can specify the fields too:
+
+  class Address
+    apply_addresslogic :fields => [:street1, :street2, :city, [:state, :zip], :country]
   end
 
 == Helpful links

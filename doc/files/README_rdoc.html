@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+  <head>
+    <title>File: README.rdoc [addresslogic-1.0.0 Documentation]</title>
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <link href='../rdoc-style.css' media='screen' rel='stylesheet' type='text/css'>
+    <script type='text/javascript'>
+      //<![CDATA[
+        function popupCode(url) {
+          window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+        }
+        
+        function toggleCode(id) {
+          var code = document.getElementById(id)
+        
+          code.style.display = code.style.display != 'block' ? 'block' : 'none'
+          return true
+        }
+        
+        // Make codeblocks hidden by default
+        document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+      //]]>
+    </script>
+  </head>
+  <body class='page'>
+    <div class='file' id='wrapper'>
+      <div class='header'>
+        <div class='name'>README.rdoc</div>
+        <div class='paths'>
+          README.rdoc
+        </div>
+        <div class='last-update'>
+          Last Update:
+          <span class='datetime'>Sat Jan 03 21:50:14 -0500 2009</span>
+        </div>
+      </div>
+      <div id='content'>
+        <div id='text'>
+          <div id='description'>
+            <h1>Address Logic</h1>
+            <p>
+            This is a simple library that takes away the annoyances of displaying
+            addresses in a view. Since various parts of an address can sometimes be
+            optional, such as &#8220;street2&#8221;, displaying addresses was not fun:
+            </p>
+            <pre># some HAML view&#x000A;= address.street1&#x000A;%br&#x000A;- if !address.street2.blank?&#x000A;  = address.street2&#x000A;  %br&#x000A;== #{address.city}, #{address.state} #{address.zip}&#x000A;%br&#x000A;= address.country</pre>
+            <p>
+            That&#8217;s just ugly. Instead, you can do this with Address Logic:
+            </p>
+            <pre>= address.address_parts.join(&quot;&lt;br /&gt;&quot;)</pre>
+            <p>
+            Or, what about a single line address?
+            </p>
+            <pre>= address.address_parts.join(&quot;, &quot;)</pre>
+            <p>
+            Maybe you only want city and state:
+            </p>
+            <pre>= address.address_parts(:only =&gt; [:city, :state]).join(&quot;, &quot;)</pre>
+            <p>
+            Granted the above is probably easier without using AddressLogic, but it
+            will purge any blank items in the address, so if city or state are optional
+            then it would be cleaner to use AddressLogic.
+            </p>
+            <h2>Install and use</h2>
+            <p>
+            As a gem:
+            </p>
+            <pre>$ sudo gem install addresslogic</pre>
+            <p>
+            Or as a plugin
+            </p>
+            <pre>$ sudo script/plugin install url</pre>
+            <p>
+            Then ust include the AddressLogic module into any class of your choice. All
+            that it assumes is that you have the street1, street2, city, state, zip,
+            country (optional) methods.
+            </p>
+            <pre>class Address&#x000A;  include Addresslogic&#x000A;end</pre>
+            <h2>Helpful links</h2>
+            <ul>
+            <li><b>Documentation:</b> <a
+            href="http://addresslogic.rubyforge.org">addresslogic.rubyforge.org</a>
+            
+            </li>
+            </ul>
+            <p>
+            Copyright &#169; 2009 Ben Johnson of [Binary Logic](<a
+            href="http://www.binarylogic.com">www.binarylogic.com</a>), released under
+            the MIT license
+            </p>
+          </div>
+          <div id='section'>
+          </div>
+        </div>
+      </div>
+      <div id='footer-push'></div>
+    </div>
+    <div id='footer'>
+      <a href="http://github.com/mislav/hanna/tree/master"><strong>Hanna</strong> RDoc template</a>
+    </div>
+  </body>
+</html>

@@ -23,12 +23,7 @@ module Addresslogic
     attr_accessor :address_parts_fields
     
     def apply_addresslogic(args = {})
-      # Is there a better way to do this??
-      class_eval <<-RUBY
-        def address_parts_fields
-          #{args[:fields].inspect}
-        end
-      RUBY
+      self.address_parts_fields = args[:fields] || [:street1, :street2, :city, [:state, :zip], :country]
       include Addresslogic::InstanceMethods
     end
   end
@@ -80,6 +75,11 @@ module Addresslogic
       
       return result.compact
     end
+    
+    private
+      def address_parts_fields
+        self.class.address_parts_fields
+      end
   end
 end
 

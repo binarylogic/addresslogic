@@ -1,2 +1,1 @@
-require "addresslogic/version"
-require "addresslogic"
+require File.dirname(__FILE__) + "/rails/init.rb"

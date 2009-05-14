@@ -16,7 +16,7 @@ class TestAddresslogix < Test::Unit::TestCase
     address.street1 = ""
     assert_equal ["W1 8AJ"], address.address_parts
     
-    address.postcode = ""
+    address.zip = ""
     assert_equal [], address.address_parts
   end
   
@@ -34,7 +34,7 @@ class TestAddresslogix < Test::Unit::TestCase
       @address.street1 = "12 Fancy House"
       @address.street2 = "Bond Street"
       @address.city = "London"
-      @address.postcode = "W1 8AJ"
+      @address.zip = "W1 8AJ"
       @address.country = "United Kingdom"
       @address
     end

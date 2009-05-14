@@ -1,0 +1,7 @@
+== 1.0.1
+
+* Changed inclusion method to use apply_addresslogic instead of include Addresslogic. This allows you to pass options and specify alternate fields.
+
+== 1.0.0
+
+* Initial release
