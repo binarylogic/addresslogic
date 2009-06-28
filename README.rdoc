@@ -28,9 +28,13 @@ Granted the above is probably easier without using AddressLogic, but it will pur
 
 == Install and use
 
-As a gem:
+Install from rubyforge
 
   $ sudo gem install addresslogic
+
+Install from github:
+
+  $ sudo gem install binarylogic-addresslogic
 
 Or as a plugin
 
@@ -50,7 +54,7 @@ You can specify the fields too:
 
 == Helpful links
 
-*	<b>Documentation:</b> http://addresslogic.rubyforge.org
+*	<b>Documentation:</b> http://rdoc.info/projects/binarylogic/addresslogic
 
 
 Copyright (c) 2009 Ben Johnson of [Binary Logic](http://www.binarylogic.com), released under the MIT license
