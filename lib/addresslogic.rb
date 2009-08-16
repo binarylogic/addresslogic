@@ -1,5 +1,3 @@
-require 'activerecord'
-
 # = Address Logic
 #
 # This is a simple module that you can include into any classm as long as it has a street1, street2, city, state, zip, and country (optional)
@@ -14,7 +12,6 @@ require 'activerecord'
 #
 # This adds a sigle method: address_parts. More on this method below...
 module Addresslogic
-  
   def self.included(base)
     base.extend ClassMethods
   end
@@ -42,7 +39,7 @@ module Addresslogic
     # * <tt>only:</tt> fields you want included in the result
     # * <tt>except:</tt> any fields you want excluded from the result
     def address_parts(*args)
-      options = args.extract_options!
+      options = args.last.is_a?(Hash) ? args.pop : {}
       options[:only] = [options[:only]] if options[:only] && !options[:only].is_a?(Array)
       options[:except] = [options[:except]] if options[:except] && !options[:except].is_a?(Array)
       fields = args[0] || address_parts_fields
@@ -54,7 +51,7 @@ module Addresslogic
           has_sub_array = field.find { |item| item.is_a?(Array) }
           separator = has_sub_array ? ", " : " "
           sub_parts = address_parts(field, level + 1, options).join(separator)
-          next if sub_parts.blank?
+          next if sub_parts.empty?
           parts << sub_parts
         else
           next if !respond_to?(field)
@@ -74,4 +71,4 @@ module Addresslogic
   end
 end
 
-ActiveRecord::Base.send(:include, Addresslogic)
+Object.send(:include, Addresslogic)

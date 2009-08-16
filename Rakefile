@@ -11,6 +11,7 @@ begin
     gem.authors = ["Ben Johnson of Binary Logic"]
     gem.rubyforge_project = "addresslogic"
   end
+  Jeweler::RubyforgeTasks.new
 rescue LoadError
   puts "Jeweler (or a dependency) not available. Install it with: sudo gem install jeweler"
 end
@@ -35,14 +36,6 @@ rescue LoadError
   end
 end
 
-task :default => :test
+task :test => :check_dependencies
 
-begin
-  require 'rake/contrib/sshpublisher'
-  namespace :rubyforge do
-    desc "Release gem to RubyForge"
-    task :release => ["rubyforge:release:gem"]
-  end
-rescue LoadError
-  puts "Rake SshDirPublisher is unavailable or your rubyforge environment is not configured."
-end
+task :default => :test
