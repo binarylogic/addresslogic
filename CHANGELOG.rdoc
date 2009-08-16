@@ -1,4 +1,9 @@
-== 1.1.4
+== 1.2.1
+
+* Use addresslogic_options class level accessor
+* Change :composition_namespace to :namespace
+
+== 1.2.0
 
 * Added :composition_namespace option.
 

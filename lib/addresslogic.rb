@@ -5,22 +5,24 @@ module Addresslogic
   end
   
   module ClassMethods
-    attr_accessor :address_parts_fields
+    attr_accessor :addresslogic_options
     
     # Mixes in useful methods for handling addresses.
     #
     # === Options
     #
     # * <tt>fields:</tt> array of fields (default: [:street1, :street2, [:city, [:state, :zip]], :country])
-    # * <tt>composition_namespace:</tt> prefixes fields names with this, great for use with composed_of in ActiveRecord.
+    # * <tt>namespace:</tt> prefixes fields names with this, great for use with composed_of in ActiveRecord.
     def apply_addresslogic(options = {})
-      n = options[:composition_namespace]
-      self.address_parts_fields = options[:fields] || [
+      n = options[:namespace]
+      options[:fields] ||= [
         "#{n}street1".to_sym,
         "#{n}street2".to_sym,
         ["#{n}city".to_sym, ["#{n}state".to_sym, "#{n}zip".to_sym]],
         "#{n}country".to_sym
       ]
+      self.addresslogic_options = options
+      
       include Addresslogic::InstanceMethods
     end
   end
@@ -42,7 +44,7 @@ module Addresslogic
       options = args.last.is_a?(Hash) ? args.pop : {}
       options[:only] = [options[:only]] if options[:only] && !options[:only].is_a?(Array)
       options[:except] = [options[:except]] if options[:except] && !options[:except].is_a?(Array)
-      fields = args[0] || self.class.address_parts_fields
+      fields = args[0] || self.class.addresslogic_options[:fields]
       level = args[1] || 0
       
       parts = []
