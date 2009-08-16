@@ -1,16 +1,4 @@
-# = Address Logic
-#
-# This is a simple module that you can include into any classm as long as it has a street1, street2, city, state, zip, and country (optional)
-# methods. Just include it into your class like so:
-#
-#   class Address
-#     apply_addresslogic :fields => [:street1, :street2, :city, [:state, :zip], :country]
-#   end
-#
-# The above will return:
-#   ["Street1", "Street2", "City", "State Zip", "Country"]
-#
-# This adds a sigle method: address_parts. More on this method below...
+# Provides common methods and tools for using addresses
 module Addresslogic
   def self.included(base)
     base.extend ClassMethods
@@ -19,8 +7,20 @@ module Addresslogic
   module ClassMethods
     attr_accessor :address_parts_fields
     
-    def apply_addresslogic(args = {})
-      self.address_parts_fields = args[:fields] || [:street1, :street2, [:city, [:state, :zip]], :country]
+    # Mixes in useful methods for handling addresses.
+    #
+    # === Options
+    #
+    # * <tt>fields:</tt> array of fields (default: [:street1, :street2, [:city, [:state, :zip]], :country])
+    # * <tt>composition_namespace:</tt> prefixes fields names with this, great for use with composed_of in ActiveRecord.
+    def apply_addresslogic(options = {})
+      n = options[:composition_namespace]
+      self.address_parts_fields = options[:fields] || [
+        "#{n}street1".to_sym,
+        "#{n}street2".to_sym,
+        ["#{n}city".to_sym, ["#{n}state".to_sym, "#{n}zip".to_sym]],
+        "#{n}country".to_sym
+      ]
       include Addresslogic::InstanceMethods
     end
   end
@@ -42,7 +42,7 @@ module Addresslogic
       options = args.last.is_a?(Hash) ? args.pop : {}
       options[:only] = [options[:only]] if options[:only] && !options[:only].is_a?(Array)
       options[:except] = [options[:except]] if options[:except] && !options[:except].is_a?(Array)
-      fields = args[0] || address_parts_fields
+      fields = args[0] || self.class.address_parts_fields
       level = args[1] || 0
       
       parts = []
@@ -63,11 +63,6 @@ module Addresslogic
       
       parts
     end
-    
-    private
-      def address_parts_fields
-        self.class.address_parts_fields
-      end
   end
 end
 
